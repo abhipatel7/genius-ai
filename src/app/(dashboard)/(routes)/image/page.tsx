@@ -24,9 +24,11 @@ import { amountOptions, formSchema, resolutionOptions } from './constants';
 import Empty from '@/components/empty';
 import Loader from '@/components/loader';
 import { Card, CardFooter } from '@/components/ui/card';
+import { useProModal } from '@/hooks/use-pro-modal';
 
 export default function ImagePage() {
   const router = useRouter();
+  const proModal = useProModal();
   const [images, setImages] = useState<string[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -50,8 +52,10 @@ export default function ImagePage() {
       setImages(urls);
 
       form.reset();
-    } catch (error) {
-      //TODO: Open Pro Model
+    } catch (error: any) {
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      }
       console.log({ error });
     } finally {
       router.refresh();
