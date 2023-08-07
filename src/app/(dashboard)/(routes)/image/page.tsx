@@ -25,6 +25,7 @@ import Empty from '@/components/empty';
 import Loader from '@/components/loader';
 import { Card, CardFooter } from '@/components/ui/card';
 import { useProModal } from '@/hooks/use-pro-modal';
+import toast from 'react-hot-toast';
 
 export default function ImagePage() {
   const router = useRouter();
@@ -55,7 +56,10 @@ export default function ImagePage() {
     } catch (error: any) {
       if (error?.response?.status === 403) {
         proModal.onOpen();
+      } else {
+        toast.error('Something went wrong.');
       }
+
       console.log({ error });
     } finally {
       router.refresh();

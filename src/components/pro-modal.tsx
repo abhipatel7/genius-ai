@@ -18,6 +18,7 @@ import { tools } from '@/constants';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import toast from 'react-hot-toast';
 
 export default function ProModal() {
   const proModal = useProModal();
@@ -30,6 +31,8 @@ export default function ProModal() {
 
       window.location.href = response.data.url;
     } catch (error) {
+      toast.error('Something went wrong.');
+
       console.log({ error }, 'STRIPE_CLIENT_ERROR');
     } finally {
       setLoading(false);
